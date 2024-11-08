@@ -11,7 +11,7 @@ pygame.init()
 from pygame.locals import K_ESCAPE, K_SPACE, KEYDOWN, QUIT, K_RIGHT, K_LEFT
 
 # Set Display
-WIDTH = 600
+WIDTH = 1000
 HEIGHT = 800
 screen = pygame.display.set_mode(WIDTH, HEIGHT)
 pygame.display.set_caption("Reach The Sun")
@@ -27,24 +27,35 @@ yellow = (228, 208, 10)
 blue = (0, 71, 171)
 blue2 = (0, 60, 190)
 orange = (255, 172, 28)
+red = (255, 35, 35)
 
 # User Variables
 user_x = WIDTH/2
 user_y = HEIGHT - 200
 user_speed = 1
 
-# Stars
+# Game Variables
+game_width = 600 
 stars = []
 for s in range(100):
     star_x = random.randrange(0, WIDTH)
     star_y = random.randrange(0, HEIGHT)
     star_pos = (star_x, star_y)
     stars.append(star_pos)
-
-game_width = 600 
+    
 current_screen = 0
 running = True
 monocraft = 'Monocraft.ttf'
+
+obstacles = []
+obstacle_speed = 0.5
+
+for o in range(5):
+    obstacle_x = random.randint(200, 200 + game_width)  # Keep obstacles within game area
+    obstacle_y = random.randint(-100, -10)  # Start slightly off-screen
+    obstacle_width = random.randint(100, 150)
+    obstacle_height = 50
+    obstacles.append([obstacle_x, obstacle_y, obstacle_width, obstacle_height])
 
 # Title Text
 title_font = pygame.font.Font(monocraft, 75)
