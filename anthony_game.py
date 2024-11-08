@@ -61,6 +61,11 @@ while running:
             ball_speed_y *= -1
             break
 
+
+    mouse_x, _ = pygame.mouse.get_pos()
+    paddle.centerx = mouse_x
+    paddle.clamp_ip(screen.get_rect())
+
     # Drawing
     screen.fill((0, 0, 0)) 
     pygame.draw.rect(screen, (225, 225, 225), paddle) 
