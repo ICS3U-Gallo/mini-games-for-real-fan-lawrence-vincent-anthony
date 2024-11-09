@@ -30,6 +30,9 @@ for _ in range(100):
     y = random.randrange(0, HEIGHT)
     stars.append((x, y))
 
+score = 0
+font = pygame.font.Font(None, 36)
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -59,6 +62,7 @@ while running:
         if ball.colliderect(brick):
             bricks.remove(brick)
             ball_speed_y *= -1
+            score += 1
             break
 
 
@@ -78,6 +82,9 @@ while running:
     # Draw bricks
     for brick in bricks:
         pygame.draw.rect(screen, (225, 0, 0), brick)
+
+    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+    screen.blit(score_text, (10, 10))
 
     # Update display
     pygame.display.flip()
