@@ -55,8 +55,11 @@ info_font = pygame.font.Font(monocraft, 15)
 info_text = info_font.render('Use arrow keys to control the snake', True, YELLOW)
 info_text_rect = info_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 120))
 
+game_over_font = pygame.font.Font(monocraft, 24)
+
 ready = True
 game_run = False
+game_over = False
 # ---------------------------
 
 running = True
@@ -70,6 +73,7 @@ while running:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             ready = False
             game_run = True
+
     # movement
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP] and direction[1] == 0:
@@ -80,12 +84,10 @@ while running:
         direction = (-GRIDSIZE, 0)
     elif keys[pygame.K_RIGHT] and direction[0] == 0:
         direction = (GRIDSIZE, 0)
-    # GAME STATE UPDATES
-    # All game math and comparisons happen here
 
-    # DRAWING
+    # background before start
     if ready:
-        screen.fill((0, 0, 50))  # always the first drawing command
+        screen.fill((0, 0, 50))
         for pos in stars:
             pygame.draw.rect(screen, (255, 255, 255), (pos[0], pos[1], 5, 5))
         screen.blit(start_text, start_text_rect)
@@ -93,6 +95,7 @@ while running:
         screen.blit(snake_text, snake_text_rect)
         pygame.display.flip()
 
+    # after start
     elif game_run:
         # snake body
         head = (snake[0][0] + direction[0], snake[0][1] + direction[1])
@@ -110,6 +113,7 @@ while running:
             snake.pop()
         # self collision
         if (head[0] < 0 or head[0] >= WIDTH or head[1] < 0 or head[1] >= HEIGHT or head in snake[1:]):
+            game_over = True
             game_run = False
         # grid
         screen.fill(BLACK)  
@@ -123,7 +127,19 @@ while running:
         pygame.draw.rect(screen, YELLOW, (food_x, food_y, GRIDSIZE, GRIDSIZE))
         # Draw snake
         for segment in snake:
-            pygame.draw.rect(screen, GREEN, (*segment, GRIDSIZE, GRIDSIZE))
+            pygame.draw.rect(screen, GREEN, (segment[0], segment[1], GRIDSIZE, GRIDSIZE))
+
+    elif game_over:
+        screen.fill(BLACK)
+        game_over_text = game_over_font.render('Game Over', True, YELLOW)
+        game_over_text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+
+        score_text = game_over_font.render(f'Score: {score}', True, YELLOW)
+        score_text_rect = score_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+        screen.blit(game_over_text, game_over_text_rect)
+        screen.blit(score_text, score_text_rect)
+
     # Must be the last two lines
     # of the game loop
     pygame.display.flip()
