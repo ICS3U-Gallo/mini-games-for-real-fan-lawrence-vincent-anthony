@@ -54,6 +54,11 @@ start_text_rect = start_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 60))
 info_font = pygame.font.Font(monocraft, 15)
 info_text = info_font.render('Use arrow keys to control the snake', True, YELLOW)
 info_text_rect = info_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 120))
+# game over
+game_over_font = pygame.font.Font(monocraft, 24)
+game_over_text = game_over_font.render('Game Over', True, YELLOW)
+game_over_text_rect = game_over_text.get_rect(center = (WIDTH // 2, HEIGHT // 2 - 50))
+
 
 # beat game
 end_font = pygame.font.Font(monocraft, 24)
@@ -80,7 +85,10 @@ while running:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 ready = False
                 game_run = True
-
+                
+    # updating score
+    score_text = game_over_font.render(f'Score: {score}', True, YELLOW)
+    score_text_rect = score_text.get_rect(center = (WIDTH // 2, HEIGHT // 2))
     # movement
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP] and direction[1] == 0:
@@ -142,13 +150,7 @@ while running:
     # game over
     elif game_over:
         screen.fill(BLACK)
-
-        game_over_font = pygame.font.Font(monocraft, 24)
-        game_over_text = game_over_font.render('Game Over', True, YELLOW)
-        game_over_text_rect = game_over_text.get_rect(center = (WIDTH // 2, HEIGHT // 2 - 50))
-
-        score_text = game_over_font.render(f'Score: {score}', True, YELLOW)
-        score_text_rect = score_text.get_rect(center = (WIDTH // 2, HEIGHT // 2))
+        
         screen.blit(game_over_text, game_over_text_rect)
         screen.blit(score_text, score_text_rect)
 
@@ -156,6 +158,8 @@ while running:
     elif end:
         screen.fill(BLACK)
         screen.blit(end_text, end_text_rect)
+        screen.blit(score_text, score_text_rect)
+
 
     # Must be the last two lines
     # of the game loop
