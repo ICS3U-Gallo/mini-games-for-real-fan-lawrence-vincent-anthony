@@ -49,6 +49,7 @@ monocraft = 'Monocraft.ttf'
 
 obstacles = []
 obstacle_speed = 0.5
+previous_obstacle_y = -100
 
 for o in range(5):
     obstacle_x = random.randint(200, 200 + game_width)  # Keep obstacles within game area
@@ -56,6 +57,7 @@ for o in range(5):
     obstacle_width = random.randint(100, 150)
     obstacle_height = 50
     obstacles.append([obstacle_x, obstacle_y, obstacle_width, obstacle_height])
+    previous_obstacle_y = obstacle_y
 
 # Title Text
 title_font = pygame.font.Font(monocraft, 75)
@@ -84,7 +86,7 @@ while running:
                 
     # Start Screen
     if current_screen == 0:
-        screen.fill(black)
+        screen.fill(blue)
         # Import text
         screen.blit(title, title_rect)
         screen.blit(start, start_rect)        
@@ -119,6 +121,21 @@ while running:
             user_x += user_speed
         if keys[K_LEFT] and user_x - 50 - user_speed > 200:
             user_x -= user_speed
-        
+                    # Move and draw obstacles
+        active_obstacles = 0  # Track active obstacles at same y level
+        for obstacle in obstacles:
+        # Move obstacle down if it is within screen bounds
+            if obstacle[1] <= HEIGHT:
+                obstacle[1] += obstacle_speed
+                active_obstacles += 1
+                pygame.draw.rect(screen, red, (obstacle[0], obstacle[1], obstacle[2], obstacle[3]))
+            
+        # Reset obstacle if it reaches the bottom
+            if obstacle[1] > HEIGHT:
+                # Only reset if less than 2 obstacles are active at the same level
+                if active_obstacles < 2:
+                    obstacle[0] = random.randint(200, 200 + game_width)  # New random x position
+                    obstacle[1] = - random.randint(100, 200)  # Position above the screen
+                    active_obstacles += 1
 
     pygame.display.flip()
