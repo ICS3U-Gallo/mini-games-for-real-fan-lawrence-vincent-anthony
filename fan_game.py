@@ -99,7 +99,7 @@ while running:
         screen.fill(blue2)
         count_font = pygame.font.Font(monocraft, 125)
         for i in range(5, 0, -1):
-            screen.fill(gray)
+            screen.fill(blue2)
             screen.blit(desc, desc_rect)
             count = count_font.render(f"{i}", True, (white))  
             count_rect = count.get_rect(center=(WIDTH/2, HEIGHT/2))
