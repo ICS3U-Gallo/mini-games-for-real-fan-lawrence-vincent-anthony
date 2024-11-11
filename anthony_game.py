@@ -3,14 +3,12 @@ import random
 
 pygame.init()
 
-# Screen dimensions
 WIDTH = 640
 HEIGHT = 480
 SIZE = (WIDTH, HEIGHT)
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 
-# Global vairables 
 BALL_RADIUS = 8
 ball_speed_x = 4
 ball_speed_y = -4
@@ -32,6 +30,8 @@ for _ in range(100):
 
 score = 0
 font = pygame.font.Font(None, 36)
+game_over = False
+win = False
 
 running = True
 while running:
@@ -39,58 +39,57 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Game State Updates
-    ball.x += ball_speed_x
-    ball.y += ball_speed_y
+    if not game_over and not win:
+        ball.x += ball_speed_x
+        ball.y += ball_speed_y
 
-    # when the ball hits side walls or ceiling 
-    if ball.left <= 0 or ball.right >= WIDTH:
-        ball_speed_x *= -1
-    if ball.top <= 0:
-        ball_speed_y *= -1
-        # when the ball misses the paddle
-    if ball.bottom >= HEIGHT: 
-        print("Game Over!")
-        running = False  
-
-    # when the ball hits the paddle
-    if ball.colliderect(paddle):
-        ball_speed_y *= -1
-
-    # when ball hits bricks 
-    for brick in bricks[:]:
-        if ball.colliderect(brick):
-            bricks.remove(brick)
+        if ball.left <= 0 or ball.right >= WIDTH:
+            ball_speed_x *= -1
+        if ball.top <= 0:
             ball_speed_y *= -1
-            score += 1
-            break
+        if ball.bottom >= HEIGHT: 
+            game_over = True  
 
+        if ball.colliderect(paddle):
+            ball_speed_y *= -1
 
-    mouse_x, _ = pygame.mouse.get_pos()
-    paddle.centerx = mouse_x
-    paddle.clamp_ip(screen.get_rect())
+        for brick in bricks[:]:
+            if ball.colliderect(brick):
+                bricks.remove(brick)
+                ball_speed_y *= -1
+                score += 1
+                break
 
-    # Drawing
-    screen.fill((0, 0, 0)) 
-    pygame.draw.rect(screen, (225, 225, 225), paddle) 
-    pygame.draw.ellipse(screen, (0, 225, 0), ball) 
+        if not bricks:
+            win = True
 
-    # Draw stars
-    for x, y in stars:
-        pygame.draw.rect(screen, (255, 255, 255), (x, y, 2, 2))
+        mouse_x, _ = pygame.mouse.get_pos()
+        paddle.centerx = mouse_x
+        paddle.clamp_ip(screen.get_rect())
 
-    # Draw bricks
-    for brick in bricks:
-        pygame.draw.rect(screen, (225, 0, 0), brick)
+        screen.fill((0, 0, 0)) 
+        pygame.draw.rect(screen, (225, 225, 225), paddle) 
+        pygame.draw.ellipse(screen, (0, 225, 0), ball) 
 
-    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
-    screen.blit(score_text, (10, 10))
+        for x, y in stars:
+            pygame.draw.rect(screen, (255, 255, 255), (x, y, 2, 2))
 
-    # Update display
+        for brick in bricks:
+            pygame.draw.rect(screen, (225, 0, 0), brick)
+
+        score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (10, 10))
+
+    else:
+        screen.fill((0, 0, 0))
+        if game_over:
+            end_text = font.render("Game Over!", True, (255, 0, 0))
+        elif win:
+            end_text = font.render("You Win!", True, (0, 255, 0))
+        screen.blit(end_text, (WIDTH // 2 - end_text.get_width() // 2, HEIGHT // 2 - end_text.get_height() // 2))
+
     pygame.display.flip()
     clock.tick(30)
 
 pygame.quit()
-
-
 
