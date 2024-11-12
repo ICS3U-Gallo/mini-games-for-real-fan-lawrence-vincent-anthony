@@ -10,7 +10,7 @@ SIZE = (WIDTH, HEIGHT)
 
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
-pygame.display.set_caption('sun collector')
+pygame.display.set_caption('Sun Quest ')
 monocraft = 'Monocraft.ttf'
 
 # ---------------------------
@@ -29,6 +29,7 @@ BLACK = (0, 0, 0)
 GRAY = (105, 105, 105)
 YELLOW = (255, 255, 0)
 GREEN = (0, 200, 0)
+ORANGE = (255, 165, 0)
 
 # grid
 GRIDSIZE = 20
@@ -41,6 +42,11 @@ food_x = (random.randint(0, (WIDTH - GRIDSIZE) // GRIDSIZE) * GRIDSIZE)
 food_y = (random.randint(0, (HEIGHT - GRIDSIZE) // GRIDSIZE) * GRIDSIZE)
 food = food_x, food_y
 score = 0
+
+# sun
+sun_r = 50
+sun_color = 0
+sun_color2 = 0
 
 # start screen
 snake_font = pygame.font.Font(monocraft, 75)
@@ -76,7 +82,6 @@ end = False
 running = True
 while running:
     # EVENT HANDLING
-    current_time = pygame.time.get_ticks()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -119,12 +124,17 @@ while running:
         if head == food:
             score += 1
             print(f'Your current score is {score}.')
-            food_x = (random.randint(0, (WIDTH - GRIDSIZE) // GRIDSIZE) *
-                    GRIDSIZE)
-            food_y = (random.randint(0, (HEIGHT - GRIDSIZE) // GRIDSIZE) *
-                    GRIDSIZE)
-            food = food_x, food_y
-            if score == 1:
+            food_check = True
+            # spawn food again
+            while food_check:
+                food_x = (random.randint(0, (WIDTH - GRIDSIZE) // GRIDSIZE) *
+                        GRIDSIZE)
+                food_y = (random.randint(0, (HEIGHT - GRIDSIZE) // GRIDSIZE) *
+                        GRIDSIZE)
+                food = food_x, food_y
+                if food != snake:
+                    food_check = False
+            if score == 20:
                 end = True
                 game_run = False
         else:
@@ -159,7 +169,12 @@ while running:
         screen.fill(BLACK)
         screen.blit(end_text, end_text_rect)
         screen.blit(score_text, score_text_rect)
+        pygame.draw.circle(screen, (sun_color, sun_color2, 0), (WIDTH // 2, (HEIGHT // 2) + 80), sun_r)
+        pygame.draw.circle(screen, ORANGE, (WIDTH // 2, (HEIGHT // 2) + 80), sun_r - 10)
 
+    if sun_color != 255 and sun_color2 != 255:
+        sun_color += 1
+        sun_color2 += 1
 
     # Must be the last two lines
     # of the game loop
