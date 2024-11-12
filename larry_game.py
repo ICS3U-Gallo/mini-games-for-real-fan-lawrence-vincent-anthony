@@ -2,7 +2,7 @@ import pygame
 import pygame.freetype
 
 pygame.init()
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((800,600))
 pygame.display.set_caption("Sun Quest")
 clock = pygame.time.Clock()
 
@@ -11,82 +11,157 @@ button_color = (100, 200, 255)
 hover_color = (50, 150, 200)
 text_color = (0, 0, 0)
 
-GAME_FONT = pygame.freetype.Font(None, 36)
+GAME_FONT = pygame.freetype.Font(None, 20)
+SPEECH_FONT = pygame.freetype.Font(None, 9)
 
-dialogue_lines = ["Light.",
-    "Underneath the suffocating soil, you can make out a light gleaming from above.",
-    "Your bones creak as you burrow up, an ode to your antiquity.",
-    "The light becomes brighter the further up you crawl.",
-    "Finally, you escape the earth's confines.",
-    "An atrocious landscape greets you.",
-    "The year is 2078.",
-    "Due to corporate greed and intercontinental warfare, the earth has become a deserted wasteland.",
-    "Far too many cow farts in the ozone layer have trapped the Sun's immense heat onto earth, making survival a near impossible feat for the earth dwellers.",
-    "",
-    "You spot what looks to be ruins of a city nearby. Do you go check it out?",
-    "Hello young man, you seem to be in quite dire need of new clothes, would you like to check out my wares?",
+MENU = "menu"
+GAME = "game"
+CREDITS = "credits"
+state = MENU
+
+dialogue_script = [
+    {"type": "dialogue", "text": "Light."},
+    {"type": "dialogue", "text": "Underneath the suffocating soil, you can make out a light gleaming from above."},
+    {"type": "dialogue", "text": "Your bones creak as you burrow up, an ode to your antiquity."},
+    {"type": "dialogue", "text": "The light becomes brighter the further up you crawl."},
+    {"type": "dialogue", "text": "Finally, you escape the earth's confines."},
+    {"type": "dialogue", "text": "An atrocious landscape greets you."},
+    {"type": "dialogue", "text": "The year is 2078."},
+    {"type": "dialogue", "text": "Due to corporate greed and intercontinental warfare, the earth has become a deserted wasteland."},
+    {"type": "choice", "options": [
+        {"text": "Check out the city ruins", "next_line": 10},
+        {"text": "Ignore the ruins and move on", "next_line": 11}
+    ]},
+    {"type": "dialogue", "text": "You decided to check out the ruins."},
+    {"type": "dialogue", "text": "Hello young man, would you like to check out my wares?"},
+    {"type": "choice", "options": [
+        {"text": "Yes", "next_line": 12},
+        {"text": "No", "next_line": 13}
+    ]},
+    {"type": "dialogue", "text": "Here are my wares: Sun Stone, Radio, Milk."},
+    {"type": "dialogue", "text": "You proceed onwards."}
 ]
+
 current_line = 0
+choice_index = 0
+choice_active = False
+current_choices = []
+
+class Button:
+    def __init__(self, text, pos, size, callback):
+        self.text = text
+        self.pos = pos
+        self.size = size
+        self.callback = callback
+        self.rect = pygame.Rect(pos, size)
+        self.hovered = False
+
+    def draw(self, screen):
+        color = hover_color if self.hovered else button_color
+        pygame.draw.rect(screen, color, self.rect, border_radius=10)
+        GAME_FONT.render_to(screen, (self.pos[0] + 20, self.pos[1] + 10), self.text, text_color)
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            self.hovered = self.rect.collidepoint(event.pos)
+        elif event.type == pygame.MOUSEBUTTONDOWN and self.hovered:
+            self.callback()
+
+menu_buttons = []
+
+def start_game():
+    global state, current_line, choice_active
+    state = GAME
+    current_line = 0
+    choice_active = False
+
+def show_credits():
+    global state
+    state = CREDITS
+
+def quit_game():
+    pygame.quit()
+    exit()
+
+menu_buttons.append(Button("Start", (300, 200), (200, 50), start_game))
+menu_buttons.append(Button("Credits", (300, 300), (200, 50), show_credits))
+menu_buttons.append(Button("Quit", (300, 400), (200, 50), quit_game))
+
+def display_dialogue(screen, text):
+    screen.fill(sky_blue)
+    SPEECH_FONT.render_to(screen, (50, 275), text, text_color)
+
+def set_choices(options):
+    global current_choices
+    current_choices = []
+    y_offset = 300
+    for option in options:
+        button = Button(option["text"], (250, y_offset), (300, 50),
+                        lambda next_line=option["next_line"]: handle_choice_selection(next_line))
+        current_choices.append(button)
+        y_offset += 70
+
+def handle_choice_selection(next_line):
+    global current_line, choice_active
+    current_line = next_line
+    choice_active = False
+    current_choices.clear()
+
+def display_credits(screen):
+    screen.fill(sky_blue)
+    GAME_FONT.render_to(screen, (250, 250), "Credits: Game by Lawrence", text_color)
+    GAME_FONT.render_to(screen, (250, 300), "Press SPACE to return", text_color)
 
 running = True
-menu_active = True
-game_active = False
-
-buttons = [
-    {"text": "Start", "rect": pygame.Rect(300, 200, 200, 50), "action": "start"},
-    {"text": "Credits", "rect": pygame.Rect(300, 300, 200, 50), "action": "credits"},
-    {"text": "Quit", "rect": pygame.Rect(300, 400, 200, 50), "action": "quit"},
-]
-
-def draw_button(screen, text, rect, is_hovered):
-    color = hover_color if is_hovered else button_color
-    pygame.draw.rect(screen, color, rect, border_radius=10)
-    GAME_FONT.render_to(screen, (rect.x + 20, rect.y + 10), text, text_color)
-
-def display_dialogue(screen):
-    global current_line
-    screen.fill(sky_blue)
-    
-    if current_line < len(dialogue_lines):
-        GAME_FONT.render_to(screen, (100, 275), dialogue_lines[current_line], text_color)
-    else:
-        GAME_FONT.render_to(screen, (100, 275), "End of Demo!", text_color)
-
 while running:
     screen.fill(sky_blue)
-    mouse_pos = pygame.mouse.get_pos()
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif menu_active and event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1: 
-                for button in buttons:
-                    if button["rect"].collidepoint(mouse_pos):
-                        if button["action"] == "start":
-                            menu_active = False
-                            game_active = True
-                        elif button["action"] == "credits":
-                            print("Credits: Game made by Lawrence :D")
-                        elif button["action"] == "quit":
-                            running = False
-        elif game_active and event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                if current_line < len(dialogue_lines) - 1:
+
+        if state == MENU:
+            for button in menu_buttons:
+                button.handle_event(event)
+
+        elif state == GAME:
+            current_data = dialogue_script[current_line]
+
+            if current_data["type"] == "choice" and not choice_active:
+                choice_active = True
+                set_choices(current_data["options"])
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and not choice_active:
                     current_line += 1
-                else:
-                    print("End of dialogue.")
-                    game_active = False
-                    menu_active = True
-                    current_line = 0
+                    if current_line >= len(dialogue_script):
+                        state = MENU  
+                        current_line = 0 
 
-    if menu_active:
-        for button in buttons:
-            is_hovered = button["rect"].collidepoint(mouse_pos)
-            draw_button(screen, button["text"], button["rect"], is_hovered)
 
-    if game_active:
-        display_dialogue(screen)
+                elif state == CREDITS and event.key == pygame.K_SPACE:
+                    state = MENU
+
+        elif state == CREDITS:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                state = MENU
+
+        if choice_active:
+            for button in current_choices:
+                button.handle_event(event)
+
+    if state == MENU:
+        for button in menu_buttons:
+            button.draw(screen)
+
+    elif state == GAME:
+        if choice_active:
+            for button in current_choices:
+                button.draw(screen)
+        else:
+            display_dialogue(screen, dialogue_script[current_line]["text"])
+
+    elif state == CREDITS:
+        display_credits(screen)
 
     pygame.display.flip()
     clock.tick(60)
