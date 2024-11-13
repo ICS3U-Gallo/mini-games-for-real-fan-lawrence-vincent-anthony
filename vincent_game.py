@@ -35,14 +35,6 @@ ORANGE = (255, 165, 0)
 # grid
 GRIDSIZE = 20
 
-# snake
-# snake = [(WIDTH // 2, HEIGHT // 2)]
-# direction = (0, 0)
-
-# food_x = (random.randint(0, (WIDTH - GRIDSIZE) // GRIDSIZE) * GRIDSIZE) 
-# food_y = (random.randint(0, (HEIGHT - GRIDSIZE) // GRIDSIZE) * GRIDSIZE)
-# food = food_x, food_y
-# score = 0
 def reset_game():
     snake = [(WIDTH // 2, HEIGHT // 2)]
     direction = (0, 0)
