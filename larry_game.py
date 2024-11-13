@@ -28,18 +28,54 @@ dialogue_script = [
     {"type": "dialogue", "text": "An atrocious landscape greets you."},
     {"type": "dialogue", "text": "The year is 2078."},
     {"type": "dialogue", "text": "Due to corporate greed and intercontinental warfare, the earth has become a deserted wasteland."},
+    {"type": "dialogue", "text": "Far too many cow farts in the ozone layer have trapped the Sun's immense heat onto earth, making survival a near impossible feat for the earth dwellers."},
     {"type": "choice", "options": [
-        {"text": "Check out the city ruins", "next_line": 10},
-        {"text": "Ignore the ruins and move on", "next_line": 11}
+        {"text": "Check out the city ruins", "next_line": 11},
+        {"text": "Ignore the ruins and move on", "next_line": 12}
     ]},
     {"type": "dialogue", "text": "You decided to check out the ruins."},
-    {"type": "dialogue", "text": "Hello young man, would you like to check out my wares?"},
+    {"type": "dialogue", "text": "You proceed onwards."},
+    {"type": "dialogue", "text": "Hello young man, you seem to be in quite dire need of new clothes, would you like to check out my wares?"},
     {"type": "choice", "options": [
-        {"text": "Yes", "next_line": 12},
-        {"text": "No", "next_line": 13}
+        {"text": "Yes", "next_line": 14},
+        {"text": "No", "next_line": 17}
     ]},
     {"type": "dialogue", "text": "Here are my wares: Sun Stone, Radio, Milk."},
-    {"type": "dialogue", "text": "You proceed onwards."}
+    {"type": "dialogue", "text": "You purchased an item."},
+    {"type": "dialogue", "text": "You proceed onwards."},
+    {"type": "dialogue", "text": "“Here, take this with you at least…” acquired item: Dog"},
+    {"type": "dialogue", "text": "You proceed onwards."},
+    {"type": "dialogue", "text": "You spot a well with a ladder leading down it. Do you check it out?"},
+    {"type": "choice", "options": [
+        {"text": "Yes", "next_line": 21},
+        {"text": "No", "next_line": 22}
+    ]},
+    {"type": "dialogue", "text": "You climb down the ladder."},
+    {"type": "dialogue", "text": "The metal is rusted from years of non-maintenance, and flakes of metal peel off, stabbing into your raw flesh."},
+    {"type": "dialogue", "text": "You have dropped into a sewage pipe. There are 3 paths that you can take. Where do you choose to go?"},
+    {"type": "choice", "options": [
+        {"text": "Left", "next_line": 25},
+        {"text": "Forward", "next_line": 29},
+        {"text": "Right", "next_line": 32}
+    ]},
+    {"type": "dialogue", "text": "You spot a body lying on the ground, you see him clutching something in his hand. A dim light emanates from it."},
+    {"type": "dialogue", "text": "You move closer to see what he is holding."},
+    {"type": "dialogue", "text": "Item acquired: Sunstone."},
+    {"type": "dialogue", "text": "You go back the way you came from."},
+    {"type": "dialogue", "text": "You move on forward."},
+    {"type": "dialogue", "text": "You spot a flickering light up ahead."},
+    {"type": "dialogue", "text": "Voices echo across the pipe walls."},
+    {"type": "dialogue", "text": "You make your way out of the pipe, and discover a thriving metropolis laid out in front of you."},
+    {"type": "dialogue", "text": "HEY YOU THERE!"},
+    {"type": "dialogue", "text": "You turn your face to see a gauntly dressed woman approaching you."},
+    {"type": "dialogue", "text": "WHO ARE YOU? I’VE NEVER SEEN YER ‘ROUND TOWN B’FORE, STATE YOUR NAME!"},
+    {"type": "choice", "options": [
+        {"text": "Ignore her", "next_line": 37},
+        {"text": "Take out dog", "next_line": 38}
+    ]},
+    {"type": "dialogue", "text": "You choose to ignore her."},
+    {"type": "dialogue", "text": "You take out the dog."},
+    {"type": "dialogue", "text": "The woman looks shocked and steps back."}
 ]
 
 current_line = 0
