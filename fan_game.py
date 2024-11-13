@@ -7,7 +7,7 @@ import pygame
 pygame.init()
 
 # Import Keys
-from pygame.locals import K_ESCAPE, K_SPACE, KEYDOWN, QUIT, K_RIGHT, K_LEFT
+from pygame.locals import K_ESCAPE, KEYDOWN, QUIT, K_RIGHT, K_LEFT
 
 # Set Display
 WIDTH = 1000
@@ -31,7 +31,6 @@ user_y = HEIGHT - 200
 user_speed = 1.5
 
 # Game Variables
-game_width = 600
 stars = []
 for s in range(100):
     star_x = random.randint(0, WIDTH)
@@ -45,12 +44,12 @@ monocraft = 'Monocraft.ttf'
 game_over = False
 
 # Obstacle variables
-obstacle_speed = 0.25
+obstacle_speed = 0.5
 obstacles = []
 previous_obstacle_y = -100
 
 for o in range(5):
-    obstacle_x = random.randint(200, game_width)  # Keep obstacles within game area
+    obstacle_x = random.randint(0, WIDTH)  # Keep obstacles within game area
     obstacle_y = previous_obstacle_y - random.randint(100, 150)  # Start slightly off-screen
     obstacle_width = 100
     obstacle_height = 50
@@ -68,8 +67,14 @@ subtitle = subtitle_font.render("REACH THE SUN", True, (orange))
 subtitle_rect = subtitle.get_rect(center=(WIDTH/2, HEIGHT/2 - 100))
 # Start Text
 start_font = pygame.font.Font(monocraft, 50)
-start = start_font.render("Press Space to Start", True, (white))
+start = start_font.render("Start", True, (white))
 start_rect = start.get_rect(center=(WIDTH/2, HEIGHT/2 + 100))
+start_button = pygame.Rect(WIDTH/2 - 150, HEIGHT/2 + 80, 300, 60)
+# Instructions Text
+instructions_font = pygame.font.Font(monocraft, 50)
+instructions = instructions_font.render("Instructions", True, (white))
+instructions_rect = instructions.get_rect(center=(WIDTH/2, HEIGHT/2 + 250))
+instructions_button = pygame.Rect(WIDTH/2 - 150, HEIGHT/2 + 180, 300, 60)
 # Description Text
 desc_font = pygame.font.Font(monocraft, 22)
 desc = desc_font.render("Use the Left and Right Arrow Keys to Dodge Incoming Obstacles", True, (orange))
@@ -79,57 +84,66 @@ game_over_font = pygame.font.Font(monocraft, 75)
 game_over_text = game_over_font.render("GAME OVER", True, red)
 game_over_rect = game_over_text.get_rect(center=(WIDTH/2, HEIGHT/2))
 
+button_default_color = blue2
+button_hover_color = blue
+
 # -------------------------------------
 
 while running:
+    # Update mouse position every frame
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                running = False
-            elif event.key == K_SPACE:
-                current_screen += 1
+                current_screen -= 1
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            # Check if user clicked Start
+            if current_screen == 0 and start_button.collidepoint(mouse_x, mouse_y):
+                current_screen = 2  # Move to the game screen
+            # Check if user clicked Instructions
+            elif current_screen == 0 and instructions_button.collidepoint(mouse_x, mouse_y):
+                current_screen = 1  # Move to the instructions screen 
 
     # Start Screen
     if current_screen == 0:
         screen.fill(blue)
+        # Draw buttons with hover effect
+        pygame.draw.rect(screen, button_hover_color if start_button.collidepoint(mouse_x, mouse_y) else button_default_color, start_button)
+        pygame.draw.rect(screen, button_hover_color if instructions_button.collidepoint(mouse_x, mouse_y) else button_default_color, instructions_button)
         # Import text
         screen.blit(title, title_rect)
         screen.blit(subtitle, subtitle_rect)
         screen.blit(start, start_rect)
+        screen.blit(instructions, instructions_rect)
         # Draw Stars
         for star_x, star_y in stars:
             pygame.draw.circle(screen, white, (star_x, star_y), 2)
 
-    # Countdown Screen
+    # Instructions Screen
     elif current_screen == 1:
         screen.fill(blue2)
-        count_font = pygame.font.Font(monocraft, 125)
-        for i in range(3, 0, -1):
-            screen.fill(blue2)
-            screen.blit(desc, desc_rect)
-            count = count_font.render(f"{i}", True, (white))  
-            count_rect = count.get_rect(center=(WIDTH/2, HEIGHT/2))
-            screen.blit(count, count_rect)
-            pygame.display.flip()
-            pygame.time.wait(1000)
-        current_screen += 1
+        screen.blit(desc, desc_rect)
+        back_text = instructions_font.render("Press ESC to go back", True, white)
+        back_text_rect = back_text.get_rect(center=(WIDTH / 2, HEIGHT - 100))
+        screen.blit(back_text, back_text_rect)
     
     # Game Screen
     elif current_screen == 2:
         screen.fill(black)
-        pygame.draw.rect(screen, black2, (200, 0, game_width, HEIGHT))
-        pygame.draw.circle(screen, blue2, (user_x, user_y), 50) # Draw player
+        pygame.draw.circle(screen, blue2, (user_x, user_y), 40) # Draw player
         # Draw Stars
         for star_x, star_y in stars:
             pygame.draw.circle(screen, white, (star_x, star_y), 2)
         # Get state of all keys
         keys = pygame.key.get_pressed()
         # User movement
-        if keys[K_RIGHT] and user_x + 50 + user_speed < game_width + 200:
+        if keys[K_RIGHT] and user_x + 40 + user_speed <= WIDTH:
             user_x += user_speed
-        if keys[K_LEFT] and user_x - 50 - user_speed > 200:
+        if keys[K_LEFT] and user_x - 40 - user_speed >= 0:
             user_x -= user_speed
         # Move and draw obstacles
         active_obstacles = 0  # Track active obstacles at same y level
@@ -139,17 +153,24 @@ while running:
                 obstacle[1] += obstacle_speed
                 active_obstacles += 1
                 pygame.draw.rect(screen, red, (obstacle[0], obstacle[1], obstacle[2], obstacle[3]))
-            # Check if the player hits an obstacle
-                if (user_x + 50 > obstacle[0] and user_x - 50 < obstacle[0] + obstacle[2] and
-                    user_y + 50 > obstacle[1] and user_y - 50 < obstacle[1] + obstacle[3]):
+
+                # Calculate the closest point on the obstacle to the center of the player
+                closest_x = max(obstacle[0], min(user_x, obstacle[0] + obstacle[2]))
+                closest_y = max(obstacle[1], min(user_y, obstacle[1] + obstacle[3]))
+
+                # Calculate the distance from the player center to this closest point
+                distance_x = user_x - closest_x
+                distance_y = user_y - closest_y
+                distance = (distance_x**2 + distance_y**2) ** 0.5
+
+                # Check if the distance is less than the player's radius
+                if distance < 40:
                     game_over = True
             # Reset obstacle if it reaches the bottom
             if obstacle[1] > HEIGHT:
-                # Only reset if less than 2 obstacles are active at the same level
-                if active_obstacles < 4:
-                    obstacle[0] = random.randint(200, game_width)  # New random x position
-                    obstacle[1] = random.randint(-150, -200)  # Position above the screen
-                    active_obstacles += 1
+                # Randomize new x-position within the game area and place it above the screen
+                obstacle[0] = random.randint(0, WIDTH - obstacle[2])
+                obstacle[1] = random.randint(-150, -100)  # Place it at a random height above the screen
     # Game over
     if game_over:
         pygame.time.wait(1000) # Freeze game 1 second after losing
@@ -159,4 +180,4 @@ while running:
 
 
     pygame.display.flip()
-    
+
