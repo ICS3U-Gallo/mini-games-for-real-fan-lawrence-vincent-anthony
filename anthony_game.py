@@ -23,6 +23,7 @@ paddle = pygame.Rect(WIDTH // 2 - paddle_width // 2, HEIGHT - 30, paddle_width, 
 BRICK_WIDTH = 60
 BRICK_HEIGHT = 20
 initial_bricks = 9 * 5
+
 bricks = [pygame.Rect(10 + i * (BRICK_WIDTH + 10), 10 + j * (BRICK_HEIGHT + 10), BRICK_WIDTH, BRICK_HEIGHT)
           for i in range(9) for j in range(5)]
 
@@ -32,9 +33,15 @@ for _ in range(100):
     y = random.randrange(0, HEIGHT)
     stars.append((x, y))
 
-first_row_bricks = [brick for brick in bricks if brick.y == 10]
+sun_y = 50
+
+first_row_bricks = [brick for brick in bricks if brick.y == 130]
 multi_ball_box = random.choice(first_row_bricks)
 
+power_up_spawned = False
+power_up = None 
+paddle_expanded = False
+paddle_timer = 0 
 score = 0
 font = pygame.font.Font(None, 36)
 game_over = False
@@ -71,6 +78,9 @@ while running:
                     ball_speeds[i] = (ball_speeds[i][0], -ball_speeds[i][1])
                     score += 1
 
+                    if not power_up_spawned and random.random() < 0.2:
+                        power_up_spawned = True
+                        power_up = pygame.Rect(brick.x,brick.y,20,20)
                     if brick == multi_ball_box:
                         for _ in range(2):
                             new_ball = pygame.Rect(ball.x, ball.y, BALL_RADIUS * 2, BALL_RADIUS * 2)
@@ -90,8 +100,20 @@ while running:
         day_progress = 255 * (1 - len(bricks) / initial_bricks)
         background_color = (day_progress // 2, day_progress // 2, day_progress)
         screen.fill(background_color)
+        if power_up:
+            power_up.y += 3 
+            if power_up.colliderect(paddle):
+                paddle.width = 120  
+                paddle_expanded = True
+                paddle_timer = pygame.time.get_ticks()  
+                power_up = None  
+                power_up_spawned = False
 
-        sun_y = HEIGHT - int((day_progress / 255) * HEIGHT)
+        if paddle_expanded and pygame.time.get_ticks() - paddle_timer > 5000:
+            paddle.width = 80  
+            paddle_expanded = False
+
+        
         pygame.draw.circle(screen, (255, 223, 0), (WIDTH // 2, sun_y), 50)
 
         star_alpha = max(0, 255 - day_progress)
@@ -119,7 +141,10 @@ while running:
             end_text = font.render("Game Over! You are unable to free the Sun", True, (255, 0, 0))
         elif win:
             end_text = font.render("You Win! You have freed the Sun!", True, (0, 255, 0))
+            pygame.draw.circle(screen, (255, 223, 0), (WIDTH // 2, sun_y+50), 50)
+            screen.fill(background_color)
         screen.blit(end_text, (WIDTH // 2 - end_text.get_width() // 2, HEIGHT // 2 - end_text.get_height() // 2))
+
 
     pygame.display.flip()
     clock.tick(30)
