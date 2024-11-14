@@ -2,7 +2,6 @@ import pygame
 import random
 
 
-
 pygame.init()
 
 WIDTH = 600
@@ -31,10 +30,12 @@ GRAY = (105, 105, 105)
 YELLOW = (255, 255, 0)
 GREEN = (0, 200, 0)
 ORANGE = (255, 165, 0)
+RED = (220, 20, 60)
 
 # grid
 GRIDSIZE = 20
 
+# resetting game
 def reset_game():
     snake = [(WIDTH // 2, HEIGHT // 2)]
     direction = (0, 0)
@@ -55,16 +56,19 @@ sun_rise = 0
 
 
 # start screen
-snake_font = pygame.font.Font(monocraft, 75)
-snake_text = snake_font.render('SUN EATER', True, YELLOW)
-snake_text_rect = snake_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+snake_font = pygame.font.Font(monocraft, 60)
+snake_text = snake_font.render('Sun Quest III', True, YELLOW)
+snake_text_rect = snake_text.get_rect(center = (WIDTH // 2, HEIGHT // 2 - 50))
+snake2_font = pygame.font.Font(monocraft, 40)
+snake2_text = snake2_font.render('Free The Sun', True, YELLOW)
+snake2_text_rect = snake2_text.get_rect(center = (WIDTH // 2, HEIGHT // 2))
 
 start_font = pygame.font.Font(monocraft, 30)
 start_text = start_font.render('Press SPACE to begin', True, YELLOW)
-start_text_rect = start_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 60))
+start_text_rect = start_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 80))
 
 info_font = pygame.font.Font(monocraft, 15)
-info_text = info_font.render('Use arrow keys to control the snake', True, YELLOW)
+info_text = info_font.render('Collect 20 sun particles to free the sun', True, YELLOW)
 info_text_rect = info_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 120))
 # game over
 game_over_font = pygame.font.Font(monocraft, 24)
@@ -103,7 +107,7 @@ while running:
                 snake, direction, score, food, game_over, game_run = reset_game()
 
     # updating score
-    score_text = game_over_font.render(f'Score: {score}', True, BLACK)
+    score_text = game_over_font.render(f'Score: {score}', True, RED)
     score_text_rect = score_text.get_rect(center = (WIDTH // 2, HEIGHT // 2))
     # movement
     keys = pygame.key.get_pressed()
@@ -124,6 +128,7 @@ while running:
         screen.blit(start_text, start_text_rect)
         screen.blit(info_text, info_text_rect)
         screen.blit(snake_text, snake_text_rect)
+        screen.blit(snake2_text, snake2_text_rect)
         pygame.display.flip()
 
     # after start
@@ -143,8 +148,11 @@ while running:
                 food_y = (random.randint(0, (HEIGHT - GRIDSIZE) // GRIDSIZE) *
                         GRIDSIZE)
                 food = food_x, food_y
-                if food != snake:
-                    food_check = False
+                
+                for j in range(len(snake)):
+                    if food not in snake:
+                        food_check = False
+
             if score == 20:
                 end = True
                 game_run = False
@@ -178,6 +186,7 @@ while running:
     # game beat
     elif end:
         screen.fill((sun_color, sun_color, 0))
+        pygame.draw.rect
         screen.blit(end_text, end_text_rect)
         screen.blit(score_text, score_text_rect)
         pygame.draw.circle(screen, (255, 255, 0), (WIDTH // 2, HEIGHT + sun_r - sun_rise), sun_r)
@@ -186,6 +195,7 @@ while running:
             sun_color += 2
         if sun_rise != 260:
             sun_rise += 2
+
 
     pygame.display.flip()
     clock.tick(10)
