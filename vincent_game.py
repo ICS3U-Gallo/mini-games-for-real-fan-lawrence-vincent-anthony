@@ -186,7 +186,6 @@ while running:
     # game beat
     elif end:
         screen.fill((sun_color, sun_color, 0))
-        pygame.draw.rect
         screen.blit(end_text, end_text_rect)
         screen.blit(score_text, score_text_rect)
         pygame.draw.circle(screen, (255, 255, 0), (WIDTH // 2, HEIGHT + sun_r - sun_rise), sun_r)
