@@ -7,7 +7,7 @@ import pygame
 pygame.init()
 
 # Import Keys
-from pygame.locals import K_ESCAPE, KEYDOWN, QUIT, K_RIGHT, K_LEFT
+from pygame.locals import K_ESCAPE, KEYDOWN, QUIT, K_RIGHT, K_LEFT, K_r
 
 # Set Display
 WIDTH = 1000
@@ -23,6 +23,7 @@ yellow = (228, 208, 10)
 blue = (0, 71, 171)
 blue2 = (0, 60, 190)
 orange = (255, 172, 28)
+orange2 = (195, 150, 15)
 red = (255, 35, 35)
 
 # User Variables
@@ -32,7 +33,7 @@ user_speed = 1.5
 
 # Game Variables
 stars = []
-for s in range(100):
+for s in range(125):
     star_x = random.randint(0, WIDTH)
     star_y = random.randint(0, HEIGHT)
     star_pos = (star_x, star_y)
@@ -41,22 +42,30 @@ for s in range(100):
 current_screen = 0
 running = True
 monocraft = 'Monocraft.ttf'
-game_over = False
+sun_y = -200
+game_won_time = 5000 # Player wins the game after 45 seconds
 
 # Obstacle variables
 obstacle_speed = 0.5
+last_speed_increase = pygame.time.get_ticks()
 obstacles = []
 previous_obstacle_y = -100
 
 for o in range(5):
-    obstacle_x = random.randint(0, WIDTH)  # Keep obstacles within game area
+    obstacle_x = random.randint(0, WIDTH-150)  # Keep obstacles within game area
     obstacle_y = previous_obstacle_y - random.randint(100, 150)  # Start slightly off-screen
-    obstacle_width = 100
+    obstacle_width = 150
     obstacle_height = 50
     obstacles.append([obstacle_x, obstacle_y, obstacle_width, obstacle_height])
     previous_obstacle_y = obstacle_y
 
-
+# Intro Text
+intro_font = pygame.font.Font(monocraft, 28)
+intro = intro_font.render("The sun has disappeared...", True, (white))
+intro_rect = intro.get_rect(center=(WIDTH/2, HEIGHT/2 - 200))
+# Intro Desc 
+intro_desc = intro_font.render("You must reach it to restore light in the world...", True, (white))
+intro_desc_rect = intro_desc.get_rect(center=(WIDTH/2, HEIGHT/2))
 # Title Text
 title_font = pygame.font.Font(monocraft, 100)
 title = title_font.render("SUN QUEST II", True, (orange))
@@ -69,23 +78,30 @@ subtitle_rect = subtitle.get_rect(center=(WIDTH/2, HEIGHT/2 - 100))
 start_font = pygame.font.Font(monocraft, 50)
 start = start_font.render("Start", True, (white))
 start_rect = start.get_rect(center=(WIDTH/2, HEIGHT/2 + 100))
-start_button = pygame.Rect(WIDTH/2 - 150, HEIGHT/2 + 80, 300, 60)
+start_button = pygame.Rect(WIDTH/2 - 150, HEIGHT/2 + 70, 300, 70)
 # Instructions Text
-instructions_font = pygame.font.Font(monocraft, 50)
-instructions = instructions_font.render("Instructions", True, (white))
+instructions = start_font.render("Instructions", True, (white))
 instructions_rect = instructions.get_rect(center=(WIDTH/2, HEIGHT/2 + 250))
-instructions_button = pygame.Rect(WIDTH/2 - 150, HEIGHT/2 + 180, 300, 60)
+instructions_button = pygame.Rect(WIDTH/2 - 250, HEIGHT/2 + 215, 500, 70)
 # Description Text
-desc_font = pygame.font.Font(monocraft, 22)
-desc = desc_font.render("Use the Left and Right Arrow Keys to Dodge Incoming Obstacles", True, (orange))
+desc_font = pygame.font.Font(monocraft, 30)
+desc = desc_font.render("Use the Left and Right Arrow Keys to Move", True, (orange))
 desc_rect = desc.get_rect(center=(WIDTH/2, HEIGHT/2 - 200))
+# Go Back Text
+back_font = pygame.font.Font(monocraft, 30)
+back_text = back_font.render("Press ESC to go back", True, white)
+back_text_rect = back_text.get_rect(center=(WIDTH / 2, HEIGHT - 200))
 # Game Over Text
 game_over_font = pygame.font.Font(monocraft, 75)
 game_over_text = game_over_font.render("GAME OVER", True, red)
-game_over_rect = game_over_text.get_rect(center=(WIDTH/2, HEIGHT/2))
+game_over_rect = game_over_text.get_rect(center=(WIDTH/2, HEIGHT/2 - 200))
+# Restart Game Text
+restart_font = pygame.font.Font(monocraft, 50)
+restart_text = restart_font.render("Press R to Restart", True, yellow)
+restart_rect = restart_text.get_rect(center=(WIDTH/2, HEIGHT/2 + 100))
 
-button_default_color = blue2
-button_hover_color = blue
+button_default_color = orange2
+button_hover_color = orange
 
 # -------------------------------------
 
@@ -96,20 +112,25 @@ while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
-        if event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
-                current_screen -= 1
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             # Check if user clicked Start
-            if current_screen == 0 and start_button.collidepoint(mouse_x, mouse_y):
-                current_screen = 2  # Move to the game screen
+            if current_screen == 1 and start_button.collidepoint(mouse_x, mouse_y):
+                current_screen = 3  # Move to the game screen
             # Check if user clicked Instructions
-            elif current_screen == 0 and instructions_button.collidepoint(mouse_x, mouse_y):
-                current_screen = 1  # Move to the instructions screen 
+            elif current_screen == 1 and instructions_button.collidepoint(mouse_x, mouse_y):
+                current_screen = 2  # Move to the instructions screen 
+    # Intro Screen
+    if current_screen == 0:
+        screen.fill(black)
+        screen.blit(intro, intro_rect)
+        screen.blit(intro_desc, intro_desc_rect)
+        pygame.display.flip()
+        pygame.time.wait(3000) # Wait 3 seconds
+        current_screen = 1
 
     # Start Screen
-    if current_screen == 0:
+    if current_screen == 1:
         screen.fill(blue)
         # Draw buttons with hover effect
         pygame.draw.rect(screen, button_hover_color if start_button.collidepoint(mouse_x, mouse_y) else button_default_color, start_button)
@@ -124,16 +145,20 @@ while running:
             pygame.draw.circle(screen, white, (star_x, star_y), 2)
 
     # Instructions Screen
-    elif current_screen == 1:
+    elif current_screen == 2:
         screen.fill(blue2)
         screen.blit(desc, desc_rect)
-        back_text = instructions_font.render("Press ESC to go back", True, white)
-        back_text_rect = back_text.get_rect(center=(WIDTH / 2, HEIGHT - 100))
         screen.blit(back_text, back_text_rect)
+        for event in pygame.event.get():
+            if event.type == KEYDOWN: 
+                if event.key == K_ESCAPE:
+                    current_screen = 1
     
     # Game Screen
-    elif current_screen == 2:
+    elif current_screen == 3:
         screen.fill(black)
+        game_time = pygame.time.get_ticks() # Get the game time
+        pygame.draw.circle(screen, orange, (WIDTH/2, sun_y), 100) # Draw the sun off screen
         pygame.draw.circle(screen, blue2, (user_x, user_y), 40) # Draw player
         # Draw Stars
         for star_x, star_y in stars:
@@ -163,21 +188,32 @@ while running:
                 distance_y = user_y - closest_y
                 distance = (distance_x**2 + distance_y**2) ** 0.5
 
-                # Check if the distance is less than the player's radius
+                # Check if the distance is less than the player's radius (if player hit obstacle)
                 if distance < 40:
-                    game_over = True
+                    pygame.time.wait(1000) # Freeze game 1 second after losing
+                    current_screen = 4
             # Reset obstacle if it reaches the bottom
             if obstacle[1] > HEIGHT:
                 # Randomize new x-position within the game area and place it above the screen
                 obstacle[0] = random.randint(0, WIDTH - obstacle[2])
                 obstacle[1] = random.randint(-150, -100)  # Place it at a random height above the screen
-    # Game over
-    if game_over:
-        pygame.time.wait(1000) # Freeze game 1 second after losing
+        
+        if game_time - last_speed_increase >= 7500:
+            obstacle_speed += 0.12 # Make obstacles faster every 7.5 seconds
+            last_speed_increase = game_time
+        if game_time >= game_won_time:
+            obstacles.clear() # Remove all obstacles from the screen
+            user_speed = 0
+            sun_y += 0.25
+            if sun_y == HEIGHT / 2:
+                pygame.time.wait(5000)
+                break
+    
+    # Game over screen
+    elif current_screen == 4:
         screen.fill(black)
         screen.blit(game_over_text, game_over_rect)
-        pygame.display.flip()
-
+        screen.blit(restart_text, restart_rect)
 
     pygame.display.flip()
 
