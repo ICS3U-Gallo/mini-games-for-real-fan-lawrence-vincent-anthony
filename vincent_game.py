@@ -1,6 +1,6 @@
 import pygame
 import random
-
+# you need monocraft font for this game!
 
 pygame.init()
 
