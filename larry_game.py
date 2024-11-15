@@ -31,83 +31,80 @@ state = MENU
 
 # Dialogue Script with Scenes
 dialogue_script = [
-    {"type": "dialogue", "text": "Light."},
-    {"type": "scene", "scene": "soil"},
-    {"type": "dialogue", "text": "Underneath the suffocating soil, you can make out a light gleaming from above."},
-    {"type": "scene", "scene": "soil_light"},
-    {"type": "dialogue", "text": "Your bones creak as you burrow up, an ode to your antiquity."},
-    {"type": "dialogue", "text": "The light becomes brighter the further up you crawl."},
-    {"type": "scene", "scene": "emerge"},
-    {"type": "dialogue", "text": "Finally, you escape the earth's confines."},
-    {"type": "scene", "scene": "wasteland"},
-    {"type": "dialogue", "text": "An atrocious landscape greets you. The year is 2078."},
-    {"type": "dialogue", "text": "Due to corporate greed and intercontinental warfare, the earth has become a deserted wasteland."},
-    {"type": "dialogue", "text": "Far too many cow farts in the ozone layer have trapped the Sun's immense heat onto earth, making survival a near impossible feat for the earth dwellers."},
-    {"type": "scene", "scene": "city_ruins"},
-    {"type": "dialogue", "text": "You spot ruins of a city nearby."},
-    {"type": "choice", "options": [
-        {"text": "Check out the city ruins", "next_line": 16},
-        {"text": "Ignore the ruins and move on", "next_line": 17}
+    {"id": 0, "type": "dialogue", "text": "Light."},
+    {"id": 1, "type": "dialogue", "scene": "soil", "text": "Underneath the suffocating soil, you can make out a light gleaming from above."},
+    {"id": 2, "type": "dialogue",  "scene": "soil_light", "text": "Your bones creak as you burrow up, an ode to your antiquity."},
+    {"id": 3, "type": "dialogue", "scene": "soil_light", "text": "The light becomes brighter the further up you crawl."},
+    {"id": 4, "type": "dialogue", "scene": "emerge", "text": "Finally, you escape the earth's confines."},
+    {"id": 5, "type": "dialogue", "scene": "wasteland", "text": "An atrocious landscape greets you. The year is 2078."},
+    {"id": 6, "type": "dialogue","scene": "wasteland", "text": "Due to corporate greed and intercontinental warfare, the earth has become a deserted wasteland."},
+    {"id": 7, "type": "dialogue", "scene": "wasteland","text": "Far too many cow farts in the ozone layer have trapped the Sun's immense heat onto earth, making survival a near impossible feat for the earth dwellers."},
+    {"id": 8, "type": "dialogue", "scene": "city_ruins", "text": "You spot ruins of a city nearby."},
+    {"id": 9, "type": "choice", "scene": "city_ruins", "options": [
+        {"text": "Check out the city ruins", "next_line": 10},
+        {"text": "Ignore the ruins and move on", "next_line": 12}
     ]},
-    {"type": "scene", "scene": "vendor"},
-    {"type": "dialogue", "text": "You decided to check out the ruins."},
-    {"type": "dialogue", "text": "Hello young man, you seem to be in quite dire need of new clothes, would you like to check out my wares?"},
-    {"type": "choice", "options": [
-        {"text": "Yes", "next_line": 19},
-        {"text": "No", "next_line": 22}
-    ]},
-    {"type": "dialogue", "text": "Here are my wares: Sun Stone, Radio, Milk."},
-    {"type": "dialogue", "text": "You purchased an item."},
-    {"type": "scene", "scene": "proceed"},
-    {"type": "dialogue", "text": "You proceed onwards."},
-    {"type": "dialogue", "text": "“Here, take this with you at least…” acquired item: Dog"},
-    {"type": "scene", "scene": "well"},
-    {"type": "dialogue", "text": "You spot a well with a ladder leading down it. Do you check it out?"},
-    {"type": "choice", "options": [
-        {"text": "Yes", "next_line": 26},
-        {"text": "No", "next_line": 27}
-    ]},
-    {"type": "scene", "scene": "ladder"},
-    {"type": "dialogue", "text": "You climb down the ladder."},
-    {"type": "scene", "scene": "pipe"},
-    {"type": "dialogue", "text": "The metal is rusted from years of non-maintenance, and flakes of metal peel off, stabbing into your raw flesh."},
-    {"type": "dialogue", "text": "You have dropped into a sewage pipe. There are 3 paths that you can take. Where do you choose to go?"},
-    {"type": "choice", "options": [
-        {"text": "Left", "next_line": 30},
-        {"text": "Forward", "next_line": 34},
-        {"text": "Right", "next_line": 37}
-    ]},
-    {"type": "scene", "scene": "left_path"},
-    {"type": "dialogue", "text": "You spot a body lying on the ground, you see him clutching something in his hand. A dim light emanates from it."},
-    {"type": "dialogue", "text": "You move closer to see what he is holding."},
-    {"type": "dialogue", "text": "Item acquired: Sunstone."},
-    {"type": "scene", "scene": "back"},
-    {"type": "dialogue", "text": "You go back the way you came from."},
-    {"type": "scene", "scene": "forward_path"},
-    {"type": "dialogue", "text": "You move on forward."},
-    {"type": "dialogue", "text": "You spot a flickering light up ahead."},
-    {"type": "scene", "scene": "metropolis"},
-    {"type": "dialogue", "text": "Voices echo across the pipe walls."},
-    {"type": "dialogue", "text": "You make your way out of the pipe, and discover a thriving metropolis laid out in front of you."},
-    {"type": "scene", "scene": "woman_approach"},
-    {"type": "dialogue", "text": "HEY YOU THERE!"},
-    {"type": "dialogue", "text": "You turn your face to see a gauntly dressed woman approaching you."},
-    {"type": "dialogue", "text": "WHO ARE YOU? I’VE NEVER SEEN YER ‘ROUND TOWN B’FORE, STATE YOUR NAME!"},
-    {"type": "choice", "options": [
-        {"text": "Ignore her", "next_line": 43},
-        {"text": "Take out dog", "next_line": 44}
-    ]},
-    {"type": "dialogue", "text": "You choose to ignore her."},
-    {"type": "scene", "scene": "dog"},
-    {"type": "dialogue", "text": "You take out the dog."},
-    {"type": "scene", "scene": "woman_shock"},
-    {"type": "dialogue", "text": "The woman looks shocked and steps back."}
+    {"id": 10, "type": "dialogue", "scene": "vendor", "text": "You decided to check out the ruins."},
+    {"id": 11, "type": "dialogue", "scene": "vendor", "text": "Hello young man, you seem to be in quite dire need of new clothes, would you like to check out my wares?"},
+    {"id": 12, "type": "dialogue", "scene": "vendor", "text": "Not implemented"}
+    # {"id": 12, "type": "choice", "options": [
+    #     {"text": "Yes", "next_line": 19},
+    #     {"text": "No", "next_line": 22}
+    # ]},
+    # {"id": 19, "type": "dialogue", "text": "Here are my wares: Sun Stone, Radio, Milk."},
+    # {"id": 20, "type": "dialogue", "text": "You purchased an item.", "next_line":24},
+    # {"id": 21, "type": "scene", "scene": "proceed"},
+    # {"id": 22, "type": "dialogue", "text": "You proceed onwards."},
+    # {"id": 23, "type": "dialogue", "text": "“Here, take this with you at least…” acquired item: Dog"},
+    # {"id": 24, "type": "scene", "scene": "well"},
+    # {"id": 25, "type": "dialogue", "text": "You spot a well with a ladder leading down it. Do you check it out?"},
+    # {"id": 26, "type": "choice", "options": [
+    #     {"text": "Yes", "next_line": 26},
+    #     {"text": "No", "next_line": 27}
+    # ]},
+    # {"id": 27, "type": "scene", "scene": "ladder"},
+    # {"id": 28, "type": "dialogue", "text": "You climb down the ladder."},
+    # {"id": 29, "type": "scene", "scene": "pipe"},
+    # {"id": 30, "type": "dialogue", "text": "The metal is rusted from years of non-maintenance, and flakes of metal peel off, stabbing into your raw flesh."},
+    # {"id": 31, "type": "dialogue", "text": "You have dropped into a sewage pipe. There are 3 paths that you can take. Where do you choose to go?"},
+    # {"id": 32, "type": "choice", "options": [
+    #     {"text": "Left", "next_line": 30},
+    #     {"text": "Forward", "next_line": 34},
+    #     {"text": "Right", "next_line": 37}
+    # ]},
+    # {"id": 33, "type": "scene", "scene": "left_path"},
+    # {"id": 34, "type": "dialogue", "text": "You spot a body lying on the ground, you see him clutching something in his hand. A dim light emanates from it."},
+    # {"id": 35, "type": "dialogue", "text": "You move closer to see what he is holding."},
+    # {"id": 36, "type": "dialogue", "text": "Item acquired: Sunstone."},
+    # {"id": 37, "type": "scene", "scene": "back"},
+    # {"id": 38, "type": "dialogue", "text": "You go back the way you came from."},
+    # {"id": 39, "type": "scene", "scene": "forward_path"},
+    # {"id": 40, "type": "dialogue", "text": "You move on forward."},
+    # {"id": 41, "type": "dialogue", "text": "You spot a flickering light up ahead."},
+    # {"id": 42, "type": "scene", "scene": "metropolis"},
+    # {"id": 43, "type": "dialogue", "text": "Voices echo across the pipe walls."},
+    # {"id": 44, "type": "dialogue", "text": "You make your way out of the pipe, and discover a thriving metropolis laid out in front of you."},
+    # {"id": 45, "type": "scene", "scene": "woman_approach"},
+    # {"id": 46, "type": "dialogue", "text": "HEY YOU THERE!"},
+    # {"id": 47, "type": "dialogue", "text": "You turn your face to see a gauntly dressed woman approaching you."},
+    # {"id": 48, "type": "dialogue", "text": "WHO ARE YOU? I’VE NEVER SEEN YER ‘ROUND TOWN B’FORE, STATE YOUR NAME!"},
+    # {"id": 49, "type": "choice", "options": [
+    #     {"text": "Ignore her", "next_line": 43},
+    #     {"text": "Take out dog", "next_line": 44}
+    # ]},
+    # {"id": 50, "type": "dialogue", "text": "You choose to ignore her."},
+    # {"id": 51, "type": "scene", "scene": "dog"},
+    # {"id": 52, "type": "dialogue", "text": "You take out the dog."},
+    # {"id": 53, "type": "scene", "scene": "woman_shock"},
+    # {"id": 54, "type": "dialogue", "text": "The woman looks shocked and steps back."}
 ]
 
 current_line = 0
 choice_active = False
 current_scene = None
 dialogue_box_y = 450
+current_choices = []
+current_data = dialogue_script [0]
 
 # Menu Functions and Buttons
 def start_game():
@@ -172,11 +169,14 @@ def display_scene(screen, scene):
     elif scene == "well":
         screen.fill(sky_blue)
         pygame.draw.circle(screen, well_color, (400, 300), 50)  # Well
+    else:
+        screen.fill(sky_blue)
 
 # Define the function to handle choice selection
 def handle_choice_selection(next_line):
-    global current_line, choice_active
+    global current_line, choice_active, current_data
     current_line = next_line  # Update the current line to the selected choice's next_line
+    current_data = dialogue_script[current_line]
     choice_active = False  # Deactivate choices once a selection is made
 
 
@@ -211,7 +211,7 @@ def set_choices(options):
 # Main Loop
 running = True
 while running:
-    screen.fill(sky_blue)
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -221,29 +221,28 @@ while running:
                 button.handle_event(event)
 
         elif state == GAME:
+            if current_data["type"]== "choice" and current_choices:
+                for button in current_choices:
+                    button.handle_event(event)
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     current_line += 1
                     if current_line >= len(dialogue_script):
                         state = MENU
                         current_line = 0
+                    current_data = dialogue_script[current_line]
 
+       
     if state == MENU:
         for button in menu_buttons:
             button.draw(screen)
-
     elif state == GAME:
-        current_data = dialogue_script[current_line]
 
-        # Display the scene first if it's a "scene" type
-        if current_data["type"] == "scene":
-            display_scene(screen, current_data["scene"])
-            if not choice_active:  # Do not skip choice activation
-                current_line += 1  # Move to the next line if not at a choice
+        display_scene(screen, current_data.get("scene"))
 
         # Handle dialogue display
-        elif current_data["type"] == "dialogue":
-            display_scene(screen, current_scene)  # Keep current scene displayed
+        if current_data["type"] == "dialogue":
             if not choice_active:
                 display_dialogue(screen, current_data["text"])
 
@@ -251,14 +250,6 @@ while running:
         elif current_data["type"] == "choice" and not choice_active:
             choice_active = True
             set_choices(current_data["options"])  # Display choice buttons
-
-        # Event handling for SPACE key to proceed dialogue
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and not choice_active:
-                current_line += 1
-                if current_line >= len(dialogue_script):
-                    state = MENU
-                    current_line = 0
 
         # Render choices if active
         if choice_active:
