@@ -1,6 +1,7 @@
 import pygame
 import random
-# you need monocraft font for this game!
+
+# you need monocraft font for this game
 
 pygame.init()
 
@@ -153,7 +154,7 @@ while running:
                     if food not in snake:
                         food_check = False
 
-            if score == 20:
+            if score == 20: # change this to 1 to go straight to end
                 end = True
                 game_run = False
         else:
@@ -186,6 +187,9 @@ while running:
     # game beat
     elif end:
         screen.fill((sun_color, sun_color, 0))
+        if sun_color <= 190:
+            for pos in stars:
+                pygame.draw.ellipse(screen, (255, 255, 255), (pos[0], pos[1], 5, 5))
         screen.blit(end_text, end_text_rect)
         screen.blit(score_text, score_text_rect)
         pygame.draw.circle(screen, (255, 255, 0), (WIDTH // 2, HEIGHT + sun_r - sun_rise), sun_r)
