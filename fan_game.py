@@ -43,7 +43,7 @@ current_screen = 0
 running = True
 monocraft = 'Monocraft.ttf'
 sun_y = -200
-game_won_num = 75 # Amount of obstacles dodged needed to win
+game_won_num = 150 # Amount of obstacles dodged needed to win
 obstacles_dodged = 0
 timer = 0
 
