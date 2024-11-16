@@ -45,12 +45,12 @@ dialogue_script = [
         {"text": "Ignore the ruins and move on", "next_line": 12}
     ]},
     {"id": 10, "type": "dialogue", "scene": "vendor", "text": "You decided to check out the ruins."},
-    {"id": 11, "type": "dialogue", "scene": "vendor", "text": "Hello young man, you seem to be in quite dire need of new clothes, would you like to check out my wares?"},
-    {"id": 12, "type": "dialogue", "scene": "vendor", "text": "Not implemented"}
-    # {"id": 12, "type": "choice", "options": [
-    #     {"text": "Yes", "next_line": 19},
-    #     {"text": "No", "next_line": 22}
-    # ]},
+    {"id": 11, "type": "dialogue", "scene": "vendor", "text": "Hello young man, you seem to be in quite dire need of new clothes, would you like to check out my wares?", "next_line":13},
+    {"id": 12, "type": "dialogue", "scene": "vendor", "text": "Not implemented"},
+    {"id": 13, "type": "choice", "options": [
+        {"text": "Yes", "next_line": 19},
+        {"text": "No", "next_line": 22}
+    ]},
     # {"id": 19, "type": "dialogue", "text": "Here are my wares: Sun Stone, Radio, Milk."},
     # {"id": 20, "type": "dialogue", "text": "You purchased an item.", "next_line":24},
     # {"id": 21, "type": "scene", "scene": "proceed"},
@@ -208,6 +208,19 @@ def set_choices(options):
         y_offset += 70
     choice_active = True
 
+def next_step():
+    global current_line, state, current_data
+    if not current_data.get("next_line"):
+        current_line += 1    
+    else:
+        current_line = current_data.get("next_line")
+        
+    current_data = dialogue_script[current_line]
+    if current_line >= len(dialogue_script):
+        state = MENU
+        current_line = 0
+        
+
 # Main Loop
 running = True
 while running:
@@ -227,12 +240,7 @@ while running:
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    current_line += 1
-                    if current_line >= len(dialogue_script):
-                        state = MENU
-                        current_line = 0
-                    current_data = dialogue_script[current_line]
-
+                    next_step()
        
     if state == MENU:
         for button in menu_buttons:
