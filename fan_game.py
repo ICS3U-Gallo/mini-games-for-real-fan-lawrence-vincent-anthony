@@ -238,7 +238,8 @@ while running:
         pygame.draw.circle(screen, orange, (WIDTH // 2, int(sun_y)), 100)
 
         # Draw the player
-        pygame.draw.circle(screen, blue2, (int(user_x), int(user_y)), 40)
+        pygame.draw.circle(screen, white, (int(user_x), int(user_y)), 40)
+        pygame.draw.circle(screen, blue2, (int(user_x), int(user_y)), 30)
 
         # Move and draw stars
         for i in range(len(stars)):
@@ -269,6 +270,7 @@ while running:
 
             if distance < 40:  # Player radius is 40
                 game_over = True
+                pygame.time.wait(2000) # Freeze 2 seconds after losing
                 current_screen = 4  # Game Over screen
                 break
 
@@ -305,4 +307,3 @@ while running:
         screen.blit(restart_text, restart_rect)
 
     pygame.display.flip()
-
