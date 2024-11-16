@@ -33,7 +33,7 @@ state = MENU
 dialogue_script = [
     {"id": 0, "type": "dialogue", "text": "Light."},
     {"id": 1, "type": "dialogue", "scene": "soil", "text": "Underneath the suffocating soil, you can make out a light gleaming from above."},
-    {"id": 2, "type": "dialogue",  "scene": "soil_light", "text": "Your bones creak as you burrow up, an ode to your antiquity."},
+    {"id": 2, "type": "dialogue", "scene": "soil_light", "text": "Your bones creak as you burrow up, an ode to your antiquity."},
     {"id": 3, "type": "dialogue", "scene": "soil_light", "text": "The light becomes brighter the further up you crawl."},
     {"id": 4, "type": "dialogue", "scene": "emerge", "text": "Finally, you escape the earth's confines."},
     {"id": 5, "type": "dialogue", "scene": "wasteland", "text": "An atrocious landscape greets you. The year is 2078."},
@@ -42,7 +42,7 @@ dialogue_script = [
     {"id": 8, "type": "dialogue", "scene": "city_ruins", "text": "You spot ruins of a city nearby."},
     {"id": 9, "type": "choice", "scene": "city_ruins", "options": [
         {"text": "Check out the city ruins", "next_line": 10},
-        {"text": "Ignore the ruins and move on", "next_line": 12}
+        {"text": "Ignore the ruins and move on", "next_line": 90}  # updated to the death ending
     ]},
     {"id": 10, "type": "dialogue", "scene": "vendor", "text": "You decided to check out the ruins."},
     {"id": 11, "type": "dialogue", "scene": "vendor", "text": "Hello young man, you seem to be in quite dire need of new clothes, would you like to check out my wares?", "next_line":13},
@@ -51,52 +51,129 @@ dialogue_script = [
         {"text": "Yes", "next_line": 19},
         {"text": "No", "next_line": 22}
     ]},
-    # {"id": 19, "type": "dialogue", "text": "Here are my wares: Sun Stone, Radio, Milk."},
-    # {"id": 20, "type": "dialogue", "text": "You purchased an item.", "next_line":24},
-    # {"id": 21, "type": "scene", "scene": "proceed"},
-    # {"id": 22, "type": "dialogue", "text": "You proceed onwards."},
-    # {"id": 23, "type": "dialogue", "text": "“Here, take this with you at least…” acquired item: Dog"},
-    # {"id": 24, "type": "scene", "scene": "well"},
-    # {"id": 25, "type": "dialogue", "text": "You spot a well with a ladder leading down it. Do you check it out?"},
-    # {"id": 26, "type": "choice", "options": [
-    #     {"text": "Yes", "next_line": 26},
-    #     {"text": "No", "next_line": 27}
-    # ]},
-    # {"id": 27, "type": "scene", "scene": "ladder"},
-    # {"id": 28, "type": "dialogue", "text": "You climb down the ladder."},
-    # {"id": 29, "type": "scene", "scene": "pipe"},
-    # {"id": 30, "type": "dialogue", "text": "The metal is rusted from years of non-maintenance, and flakes of metal peel off, stabbing into your raw flesh."},
-    # {"id": 31, "type": "dialogue", "text": "You have dropped into a sewage pipe. There are 3 paths that you can take. Where do you choose to go?"},
-    # {"id": 32, "type": "choice", "options": [
-    #     {"text": "Left", "next_line": 30},
-    #     {"text": "Forward", "next_line": 34},
-    #     {"text": "Right", "next_line": 37}
-    # ]},
-    # {"id": 33, "type": "scene", "scene": "left_path"},
-    # {"id": 34, "type": "dialogue", "text": "You spot a body lying on the ground, you see him clutching something in his hand. A dim light emanates from it."},
-    # {"id": 35, "type": "dialogue", "text": "You move closer to see what he is holding."},
-    # {"id": 36, "type": "dialogue", "text": "Item acquired: Sunstone."},
-    # {"id": 37, "type": "scene", "scene": "back"},
-    # {"id": 38, "type": "dialogue", "text": "You go back the way you came from."},
-    # {"id": 39, "type": "scene", "scene": "forward_path"},
-    # {"id": 40, "type": "dialogue", "text": "You move on forward."},
-    # {"id": 41, "type": "dialogue", "text": "You spot a flickering light up ahead."},
-    # {"id": 42, "type": "scene", "scene": "metropolis"},
-    # {"id": 43, "type": "dialogue", "text": "Voices echo across the pipe walls."},
-    # {"id": 44, "type": "dialogue", "text": "You make your way out of the pipe, and discover a thriving metropolis laid out in front of you."},
-    # {"id": 45, "type": "scene", "scene": "woman_approach"},
-    # {"id": 46, "type": "dialogue", "text": "HEY YOU THERE!"},
-    # {"id": 47, "type": "dialogue", "text": "You turn your face to see a gauntly dressed woman approaching you."},
-    # {"id": 48, "type": "dialogue", "text": "WHO ARE YOU? I’VE NEVER SEEN YER ‘ROUND TOWN B’FORE, STATE YOUR NAME!"},
-    # {"id": 49, "type": "choice", "options": [
-    #     {"text": "Ignore her", "next_line": 43},
-    #     {"text": "Take out dog", "next_line": 44}
-    # ]},
-    # {"id": 50, "type": "dialogue", "text": "You choose to ignore her."},
-    # {"id": 51, "type": "scene", "scene": "dog"},
-    # {"id": 52, "type": "dialogue", "text": "You take out the dog."},
-    # {"id": 53, "type": "scene", "scene": "woman_shock"},
-    # {"id": 54, "type": "dialogue", "text": "The woman looks shocked and steps back."}
+    {"id": 14, "type": "dialogue", "scene": "vendor", "text": "Here are my wares: Sun Stone, Radio, Milk."},
+    {"id": 15, "type": "dialogue", "scene": "vendor", "text": "You purchased an item.", "next_line": 18},
+    {"id": 16, "type": "dialogue", "scene": "proceed", "text": "You proceed onwards."},
+    {"id": 17, "type": "dialogue", "scene": "vendor", "text": "“Here, take this with you at least…” acquired item: Dog"},
+    {"id": 18, "type": "dialogue", "scene": "well", "text": "You spot a well with a ladder leading down it. Do you check it out?"},
+    {"id": 19, "type": "choice", "scene": "well", "options": [
+        {"text": "Yes", "next_line": 20},
+        {"text": "No", "next_line": 21}
+    ]},
+    {"id": 20, "type": "dialogue", "scene": "ladder", "text": "You climb down the ladder."},
+    {"id": 21, "type": "dialogue", "scene": "pipe", "text": "The metal is rusted from years of non-maintenance, and flakes of metal peel off, stabbing into your raw flesh."},
+    {"id": 22, "type": "dialogue", "scene": "pipe", "text": "You have dropped into a sewage pipe. There are 3 paths that you can take. Where do you choose to go?"},
+    {"id": 23, "type": "choice", "scene": "pipe", "options": [
+        {"text": "Left", "next_line": 24},
+        {"text": "Forward", "next_line": 28},
+        {"text": "Right", "next_line": 105}
+    ]},
+    {"id": 24, "type": "dialogue", "scene": "left_path", "text": "You spot a body lying on the ground, you see him clutching something in his hand. A dim light emanates from it."},
+    {"id": 25, "type": "dialogue", "scene": "left_path", "text": "You move closer to see what he is holding."},
+    {"id": 26, "type": "dialogue", "scene": "left_path", "text": "Item acquired: Sunstone."},
+    {"id": 27, "type": "dialogue", "scene": "back", "text": "You go back the way you came from."},
+    {"id": 28, "type": "dialogue", "scene": "forward_path", "text": "You move on forward."},
+    {"id": 29, "type": "dialogue", "scene": "forward_path", "text": "You spot a flickering light up ahead."},
+    {"id": 30, "type": "dialogue", "scene": "metropolis", "text": "Voices echo across the pipe walls."},
+    {"id": 31, "type": "dialogue", "scene": "metropolis", "text": "You make your way out of the pipe, and discover a thriving metropolis laid out in front of you."},
+    {"id": 32, "type": "dialogue", "scene": "woman_approach", "text": "HEY YOU THERE!"},
+    {"id": 33, "type": "dialogue", "scene": "woman_approach", "text": "You turn your face to see a gauntly dressed woman approaching you."},
+    {"id": 34, "type": "dialogue", "scene": "woman_approach", "text": "WHO ARE YOU? I’VE NEVER SEEN YER ‘ROUND TOWN B’FORE, STATE YOUR NAME!"},
+    {"id": 35, "type": "choice", "scene": "woman_approach", "options": [
+        {"text": "My name is...", "next_line": 36},
+        {"text": "Ignore", "next_line": 120},
+        {"text": "Take out dog", "next_line": 38}
+    ]},
+    {"id": 36, "type": "dialogue", "scene": "woman_response", "text": "You say your name."},
+    {"id": 37, "type": "dialogue", "scene": "ignore", "text": "You choose to ignore her."},
+    {"id": 38, "type": "dialogue", "scene": "dog_out", "text": "You take out the dog."},
+    {"id": 39, "type": "dialogue", "scene": "woman_shock", "text": "The woman steps back."},
+    {"id": 40, "type": "dialogue", "scene": "woman_shock", "text": "Is that… the dog of PROPHECY?!?!" },
+    {"id": 41, "type": "dialogue", "scene": "woman_shock", "text": "Come with me… if that is truly the dog of prophecy you hold, then the fate of the world lies on your shoulders…!!"},
+    {"id": 42, "type": "dialogue", "scene": "crowd_walk", "text": "You are led through a crowd of people and down a hallway."},
+    {"id": 43, "type": "dialogue", "scene": "crowd_walk", "text": "People cast unfriendly glances your way."},
+    {"id": 44, "type": "dialogue", "scene": "crowd_walk", "text": "You notice the soot covering their bodies."},
+    {"id": 45, "type": "dialogue", "scene": "crowd_walk", "text": "With nowhere for factory fumes to escape to within the underground city, it seems the residents were suscepted to its filth."},
+    {"id": 46, "type": "dialogue", "scene": "cavern", "text": "Eventually you are led to a large cavern."},
+    {"id": 47, "type": "dialogue", "scene": "cavern", "text": "The walls are plated with thick steel slabs, and in the middle sits a giant rocket-like object."},
+     {"id": 48, "type": "dialogue", "scene": "prophet", "text": "You see a figure sitting cross-legged next to the fire, their face obscured by a hood."},
+    {"id": 49, "type": "dialogue", "scene": "prophet", "text": "They lift their head slowly, revealing eyes that seem to pierce into your soul."},
+    {"id": 50, "type": "dialogue", "scene": "prophet", "text": "You’ve finally arrived. I was beginning to think the prophecies were false."},
+    {"id": 51, "type": "dialogue", "scene": "prophet", "text": "The dog you carry is a symbol of the ancient world, the key to salvation."},
+    {"id": 52, "type": "choice", "scene": "prophet", "options": [
+        {"text": "Ask about the prophecy", "next_line": 53},
+        {"text": "Remain silent", "next_line": 59}
+    ]},
+    {"id": 53, "type": "dialogue", "scene": "prophecy_explanation", "text": "The prophecy speaks of a savior who will emerge when the world has lost hope."},
+    {"id": 54, "type": "dialogue", "scene": "prophecy_explanation", "text": "They will be the bearer of a dog of legend, whose presence heralds a new beginning."},
+    {"id": 55, "type": "dialogue", "scene": "prophecy_explanation", "text": "However, the journey to fulfill this prophecy is fraught with peril."},
+    {"id": 56, "type": "dialogue", "scene": "prophecy_explanation", "text": "Many have tried and failed, consumed by the darkness of this desolate world."},
+    {"id": 57, "type": "dialogue", "scene": "prophet_choice", "text": "Are you willing to take on this burden?"},
+    {"id": 58, "type": "choice", "scene": "prophet_choice", "options": [
+        {"text": "Accept the burden", "next_line": 69},
+        {"text": "Refuse", "next_line": 99}  # leads to a death ending
+    ]},
+    
+
+    {"id": 69, "type": "dialogue", "scene": "accept_path", "text": "You nod solemnly, accepting the role bestowed upon you."},
+    {"id": 70, "type": "dialogue", "scene": "accept_path", "text": "The prophet smiles weakly. 'Very well. The journey ahead will test your resolve.'"},
+    {"id": 71, "type": "dialogue", "scene": "accept_path", "text": "The fate of this world now rests in your hands."},
+    {"id": 72, "type": "dialogue", "scene": "quest_start", "text": "You are given a map, marking the key locations you need to visit to fulfill the prophecy."},
+    {"id": 73, "type": "choice", "scene": "quest_start", "options": [
+        {"text": "Begin your journey", "next_line": 79},
+        {"text": "Rest for a moment", "next_line": 89}
+    ]},
+
+    {"id": 99, "type": "dialogue", "scene": "death_refuse", "text": "You refuse, stating that this is not your responsibility."},
+    {"id": 100, "type": "dialogue", "scene": "death_refuse", "text": "The prophet's expression darkens. 'So be it. The world will continue its descent into ruin.'"},
+    {"id": 101, "type": "dialogue", "scene": "death_refuse", "text": "As you turn to leave, the ground trembles violently."},
+    {"id": 102, "type": "dialogue", "scene": "death_refuse", "text": "A fissure opens beneath your feet, swallowing you whole."},
+    {"id": 103, "type": "dialogue", "scene": "death_refuse", "text": "The darkness consumes you, and everything fades away."},
+    {"id": 104, "type": "ending", "scene": "death_refuse", "text": "You have met a grim end. Try again."},
+
+    {"id": 89, "type": "dialogue", "scene": "death_rest", "text": "You decide to rest before embarking on your journey."},
+    {"id": 90, "type": "dialogue", "scene": "death_rest", "text": "The prophet nods and gives you a spot to lie down."},
+    {"id": 91, "type": "dialogue", "scene": "death_rest", "text": "However, as you close your eyes, a shadow looms over you."},
+    {"id": 92, "type": "dialogue", "scene": "death_rest", "text": "A group of bandits, sensing your hesitation, ambush you."},
+    {"id": 93, "type": "dialogue", "scene": "death_rest", "text": "You try to fight back, but they overpower you swiftly."},
+    {"id": 94, "type": "ending", "scene": "death_rest", "text": "You have been defeated by the bandits. Try again."},
+
+    {"id": 79, "type": "dialogue", "scene": "journey_begin", "text": "With determination in your heart, you set off on your journey."},
+    {"id": 80, "type": "dialogue", "scene": "journey_begin", "text": "The barren wasteland stretches before you, a reminder of the stakes."},
+    {"id": 81, "type": "dialogue", "scene": "journey_begin", "text": "You take your first step towards fulfilling the prophecy, and the future of the world hinges on your actions."},
+    {"id": 82, "type": "ending", "scene": "journey_begin", "text": "To be continued..."},
+
+    {"id": 105, "type": "dialogue", "scene": "tunnel_right_path", "text": "You decide to go right, the tunnel's cold air sending shivers down your spine."},
+    {"id": 106, "type": "dialogue", "scene": "tunnel_right_path", "text": "The sound of dripping water echoes through the narrow passage, as you notice an eerie glow ahead."},
+    {"id": 107, "type": "dialogue", "scene": "alien_encounter", "text": "You approach cautiously, the glow growing brighter. Suddenly, you find yourself face-to-face with an alien creature."},
+    {"id": 108, "type": "dialogue", "scene": "alien_encounter", "text": "The alien has a sleek, metallic body with piercing eyes that seem to look right through you."},
+    {"id": 109, "type": "dialogue", "scene": "alien_encounter", "text": "It tilts its head, examining you curiously before emitting a low, humming sound."},
+    {"id": 110, "type": "choice", "scene": "alien_encounter", "options": [
+        {"text": "Run away", "next_line": 111},
+        {"text": "Try to communicate", "next_line": 115}
+    ]},
+    {"id": 111, "type": "dialogue", "scene": "run_away", "text": "You turn and sprint back towards the way you came, your heart pounding in your chest."},
+    {"id": 112, "type": "dialogue", "scene": "run_away", "text": "You feel a sudden, intense heat behind you. The tunnel lights up as the alien fires a beam of energy."},
+    {"id": 113, "type": "dialogue", "scene": "run_away", "text": "The last thing you see is a blinding flash of light. Everything goes silent."},
+    {"id": 114, "type": "ending", "scene": "run_away", "text": "You have died. The alien's power was far beyond anything you could handle."},
+
+    {"id": 115, "type": "dialogue", "scene": "communicate", "text": "You raise your hands slowly, trying to show you mean no harm."},
+    {"id": 116, "type": "dialogue", "scene": "communicate", "text": "The alien pauses, its eyes narrowing as it studies you. For a moment, it almost seems curious."},
+    {"id": 117, "type": "dialogue", "scene": "communicate", "text": "But then its expression changes. It emits a sharp, high-pitched sound, and you feel a crushing force grip your entire body."},
+    {"id": 118, "type": "dialogue", "scene": "communicate", "text": "You realize too late that this was not a friendly encounter. The alien's eyes glow brighter, and the pressure intensifies."},
+    {"id": 119, "type": "ending", "scene": "communicate", "text": "You have died. The alien showed no mercy."},
+
+    {"id": 120, "type": "dialogue", "scene": "woman_response", "text": "You shake your head, refusing to follow her."},
+    {"id": 121, "type": "dialogue", "scene": "woman_response", "text": "Barbara's face darkens, a frown replacing her initial surprise."},
+    {"id": 122, "type": "dialogue", "scene": "woman_response", "text": "“You must be joking. Do you have any idea what you’re refusing?” she hisses."},
+    {"id": 123, "type": "dialogue", "scene": "woman_response", "text": "You turn away, not wanting to get involved. You take a step forward to leave, but feel a sudden chill in the air."},
+    {"id": 124, "type": "dialogue", "scene": "woman_response", "text": "As you walk away, you hear Barbara muttering under her breath, her words filled with venom."},
+    {"id": 125, "type": "dialogue", "scene": "ambush", "text": "Out of nowhere, a group of masked figures emerge from the shadows, surrounding you."},
+    {"id": 126, "type": "dialogue", "scene": "ambush", "text": "“You should have listened,” Barbara’s voice calls out coldly. “Nobody refuses me.”"},
+    {"id": 127, "type": "dialogue", "scene": "ambush", "text": "Before you can react, one of the figures lunges at you, knife in hand."},
+    {"id": 128, "type": "dialogue", "scene": "ambush", "text": "You try to fight back, but they overpower you with ease. The blade sinks into your side, a sharp pain coursing through your body."},
+    {"id": 129, "type": "dialogue", "scene": "ambush", "text": "You fall to the ground, your vision blurring as the masked figures close in."},
+    {"id": 130, "type": "ending", "scene": "death_by_ambush", "text": "You have died. Refusing Barbara’s offer cost you your life."}
 ]
 
 current_line = 0
